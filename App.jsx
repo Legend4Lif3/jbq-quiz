@@ -1000,7 +1000,7 @@ function RoundQuizzingWindow({ questions, redQuizzers, greenQuizzers, onClose })
                       <div style={{ fontSize:13, color:"#4a3f35" }}>✓{rec.correct} ✗{rec.incorrect}{fc>0?` ⚠${fc}`:""}</div>
                     </div>
                   </div>
-                  <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10 }}>
+                  <div className="report-quizzer-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:10 }}>
                     {[10,20,30].map(pts => {
                       const cat = s[pts];
                       const intTotal = cat.interrupted.correct + cat.interrupted.incorrect;
@@ -1159,7 +1159,7 @@ function RoundQuizzingWindow({ questions, redQuizzers, greenQuizzers, onClose })
           </div>
         </div>
         {/* VS */}
-        <div style={{ padding: "0 18px", fontFamily: "'Cinzel',serif", fontSize: 13, color: "#a89c92", letterSpacing: "0.1em" }}>VS</div>
+        <div className="match-vs" style={{ padding: "0 18px", fontFamily: "'Cinzel',serif", fontSize: 13, color: "#a89c92", letterSpacing: "0.1em" }}>VS</div>
         {/* Green */}
         <div style={{ padding: "14px 20px", borderLeft: "1px solid #e2d9cf" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -1211,13 +1211,13 @@ function RoundQuizzingWindow({ questions, redQuizzers, greenQuizzers, onClose })
       )}
 
       {/* ── MAIN 3-COLUMN LAYOUT ── */}
-      <div style={{ flex: 1, display: "flex", overflow: "auto" }}>
+      <div className="match-3col" style={{ flex: 1, display: "flex", overflow: "auto" }}>
 
         {/* LEFT — Red Team panel */}
         {(() => {
           const isLocked = lockedTeam === "red";
           return (
-            <div style={{ width: 220, flexShrink: 0, borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", background: isLocked ? "rgba(0,0,0,0.2)" : "rgba(248,113,113,0.04)", overflow: "auto" }}>
+            <div className="match-team-left" style={{ width: 220, flexShrink: 0, borderRight: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", background: isLocked ? "rgba(0,0,0,0.2)" : "rgba(248,113,113,0.04)", overflow: "auto" }}>
               {/* Team header */}
               <div style={{ padding: "14px 14px 10px", borderBottom: "1px solid rgba(248,113,113,0.15)" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -1299,7 +1299,7 @@ function RoundQuizzingWindow({ questions, redQuizzers, greenQuizzers, onClose })
         {(() => {
           const isLocked = lockedTeam === "green";
           return (
-            <div style={{ width: 220, flexShrink: 0, borderLeft: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", background: isLocked ? "rgba(0,0,0,0.2)" : "rgba(74,222,128,0.04)", overflow: "auto" }}>
+            <div className="match-team-right" style={{ width: 220, flexShrink: 0, borderLeft: "1px solid rgba(255,255,255,0.06)", display: "flex", flexDirection: "column", background: isLocked ? "rgba(0,0,0,0.2)" : "rgba(74,222,128,0.04)", overflow: "auto" }}>
               {/* Team header */}
               <div style={{ padding: "14px 14px 10px", borderBottom: "1px solid rgba(74,222,128,0.15)" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -1866,7 +1866,24 @@ function QuizzingWindow({ questions, onClose, onRegenerate }) {
             })}
           </div>
         </div>
-        <style>{`@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }`}</style>
+        
+      <style>{`
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        * { -webkit-tap-highlight-color: transparent; }
+        input[type=range] { width: 100%; }
+        @media (max-width: 640px) {
+          .home-cards { flex-direction: column !important; align-items: stretch !important; }
+          .home-card  { max-width: 100% !important; }
+          .browse-layout { flex-direction: column !important; height: auto !important; }
+          .browse-sidebar { width: 100% !important; max-height: 340px; border-right: none !important; border-bottom: 1px solid #e2d9cf !important; }
+          .match-team-left  { width: 100% !important; border-right: none !important; border-bottom: 1px solid #e2d9cf; max-height: none !important; }
+          .match-team-right { width: 100% !important; border-left: none !important;  border-top: 1px solid #e2d9cf; max-height: none !important; }
+          .match-3col { flex-direction: column !important; overflow: visible !important; }
+          .match-scoreboard { font-size: 22px !important; }
+          .report-quizzer-grid { grid-template-columns: 1fr !important; }
+          .practice-mode-cards { flex-direction: column !important; }
+        }
+      `}</style>
       </div>
     );
   }
@@ -1971,7 +1988,24 @@ function QuizzingWindow({ questions, onClose, onRegenerate }) {
           </button>
         </div>
       </div>
-      <style>{`@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }`}</style>
+      
+      <style>{`
+        @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        * { -webkit-tap-highlight-color: transparent; }
+        input[type=range] { width: 100%; }
+        @media (max-width: 640px) {
+          .home-cards { flex-direction: column !important; align-items: stretch !important; }
+          .home-card  { max-width: 100% !important; }
+          .browse-layout { flex-direction: column !important; height: auto !important; }
+          .browse-sidebar { width: 100% !important; max-height: 340px; border-right: none !important; border-bottom: 1px solid #e2d9cf !important; }
+          .match-team-left  { width: 100% !important; border-right: none !important; border-bottom: 1px solid #e2d9cf; max-height: none !important; }
+          .match-team-right { width: 100% !important; border-left: none !important;  border-top: 1px solid #e2d9cf; max-height: none !important; }
+          .match-3col { flex-direction: column !important; overflow: visible !important; }
+          .match-scoreboard { font-size: 22px !important; }
+          .report-quizzer-grid { grid-template-columns: 1fr !important; }
+          .practice-mode-cards { flex-direction: column !important; }
+        }
+      `}</style>
     </div>
   );
 }
@@ -2029,7 +2063,7 @@ function BrowseQuestions({ onClose }) {
         </label>
       </div>
 
-      <div style={{ flex:1, display:"flex", overflow:"hidden" }}>
+      <div className="browse-layout" style={{ flex:1, display:"flex", overflow:"hidden" }}>
 
         {/* Sidebar */}
         <div style={{ width:240, flexShrink:0, padding:"16px 14px", borderRight:"1px solid rgba(255,255,255,0.07)", background:"#f7f3ee", overflowY:"auto", display:"flex", flexDirection:"column", gap:14 }}>
@@ -2192,7 +2226,7 @@ function PracticeSetup({ onGenerate, onClose }) {
           </div>
           <button onClick={onClose} style={{ width:30, height:30, borderRadius:8, border:"1px solid #d4c9bc", background:"#f0ebe3", color:"#7a6f64", cursor:"pointer", fontSize:16 }}>✕</button>
         </div>
-        <div style={{ padding:"24px", display:"flex", flexDirection:"column", gap:14 }}>
+        <div className="practice-mode-cards" style={{ padding:"24px", display:"flex", flexDirection:"column", gap:14 }}>
 
           {/* Official */}
           <div onClick={() => setMode("official")}
@@ -2429,11 +2463,11 @@ export default function App() {
 
         {/* Three cards */}
         <div style={{ flex:1, display:"flex", alignItems:"center", justifyContent:"center", padding:"40px 24px" }}>
-          <div style={{ display:"flex", gap:20, flexWrap:"wrap", justifyContent:"center", maxWidth:860, width:"100%" }}>
+          <div className="home-cards" style={{ display:"flex", gap:20, flexWrap:"wrap", justifyContent:"center", maxWidth:860, width:"100%" }}>
 
             {/* Create a Round */}
             <div onClick={()=>setShowCreateRound(true)}
-              style={{ flex:"1 1 220px", maxWidth:260, background:"#edfaf2", border:"1px solid #bbf7d0", borderRadius:18, padding:"32px 24px", cursor:"pointer", textAlign:"center", transition:"all .18s" }}
+              className="home-card" style={{ flex:"1 1 220px", maxWidth:260, background:"#edfaf2", border:"1px solid #bbf7d0", borderRadius:18, padding:"32px 24px", cursor:"pointer", textAlign:"center", transition:"all .18s" }}
               onMouseEnter={e=>{e.currentTarget.style.background="rgba(16,185,129,0.14)";e.currentTarget.style.borderColor="rgba(16,185,129,0.45)";e.currentTarget.style.transform="translateY(-3px)";}}
               onMouseLeave={e=>{e.currentTarget.style.background="rgba(16,185,129,0.07)";e.currentTarget.style.borderColor="rgba(16,185,129,0.25)";e.currentTarget.style.transform="translateY(0)";}}>
               <div style={{ fontSize:44, marginBottom:14 }}>🏆</div>
@@ -2443,7 +2477,7 @@ export default function App() {
 
             {/* Practice Set */}
             <div onClick={()=>setShowPractice(true)}
-              style={{ flex:"1 1 220px", maxWidth:260, background:"#f5f0fc", border:"1px solid #ddd6fe", borderRadius:18, padding:"32px 24px", cursor:"pointer", textAlign:"center", transition:"all .18s" }}
+              className="home-card" style={{ flex:"1 1 220px", maxWidth:260, background:"#f5f0fc", border:"1px solid #ddd6fe", borderRadius:18, padding:"32px 24px", cursor:"pointer", textAlign:"center", transition:"all .18s" }}
               onMouseEnter={e=>{e.currentTarget.style.background="rgba(124,58,237,0.14)";e.currentTarget.style.borderColor="rgba(124,58,237,0.45)";e.currentTarget.style.transform="translateY(-3px)";}}
               onMouseLeave={e=>{e.currentTarget.style.background="rgba(124,58,237,0.07)";e.currentTarget.style.borderColor="rgba(124,58,237,0.25)";e.currentTarget.style.transform="translateY(0)";}}>
               <div style={{ fontSize:44, marginBottom:14 }}>⚡</div>
@@ -2453,7 +2487,7 @@ export default function App() {
 
             {/* Browse */}
             <div onClick={()=>setShowBrowse(true)}
-              style={{ flex:"1 1 220px", maxWidth:260, background:"#fdf6e8", border:"1px solid #fde68a", borderRadius:18, padding:"32px 24px", cursor:"pointer", textAlign:"center", transition:"all .18s" }}
+              className="home-card" style={{ flex:"1 1 220px", maxWidth:260, background:"#fdf6e8", border:"1px solid #fde68a", borderRadius:18, padding:"32px 24px", cursor:"pointer", textAlign:"center", transition:"all .18s" }}
               onMouseEnter={e=>{e.currentTarget.style.background="rgba(200,134,10,0.14)";e.currentTarget.style.borderColor="rgba(200,134,10,0.45)";e.currentTarget.style.transform="translateY(-3px)";}}
               onMouseLeave={e=>{e.currentTarget.style.background="rgba(200,134,10,0.07)";e.currentTarget.style.borderColor="rgba(200,134,10,0.22)";e.currentTarget.style.transform="translateY(0)";}}>
               <div style={{ fontSize:44, marginBottom:14 }}>📖</div>
