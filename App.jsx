@@ -144,12 +144,11 @@ function TeamSetup({ color, teamName, accent, bg, border, quizzers, setQuizzers 
   const addQuizzer = () => {
     if (quizzers.length >= 8) return;
     const isStarter = quizzers.length < 4;
-    const subNum = quizzers.length - 3; // 1-indexed sub number
+    const subNum = quizzers.length - 3;
     const name = isStarter ? `${teamName} ${quizzers.length + 1}` : `Substitute ${subNum}`;
     setQuizzers([...quizzers, { id: Date.now(), name }]);
   };
   const removeQuizzer = (id) => {
-    // Don't allow removing below 1
     if (quizzers.length <= 1) return;
     setQuizzers(quizzers.filter(q => q.id !== id));
   };
@@ -160,85 +159,87 @@ function TeamSetup({ color, teamName, accent, bg, border, quizzers, setQuizzers 
 
   return (
     <div style={{
-      flex: 1, border: `2px solid ${border}`, borderRadius: 16,
-      background: bg, padding: "24px 22px", display: "flex", flexDirection: "column", gap: 16,
+      border: `2px solid ${border}`, borderRadius: 16,
+      background: bg, padding: "20px 18px", display: "flex", flexDirection: "column", gap: 14,
     }}>
       {/* Team header */}
       <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
         <div style={{
-          width: 40, height: 40, borderRadius: 10,
+          width: 44, height: 44, borderRadius: 10, flexShrink: 0,
           background: `linear-gradient(135deg, ${accent}aa, ${accent})`,
-          display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20,
+          display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
         }}>{color === "red" ? "🔴" : "🟢"}</div>
         <div>
-          <div style={{ fontFamily: "'Cinzel',serif", fontSize: 16, fontWeight: 700, color: accent, letterSpacing: "0.06em" }}>{teamName}</div>
-          <div style={{ fontSize: 12, color: `${accent}99`, fontStyle: "italic" }}>
+          <div style={{ fontFamily: "'Cinzel',serif", fontSize: 17, fontWeight: 700, color: accent, letterSpacing: "0.04em" }}>{teamName}</div>
+          <div style={{ fontSize: 13, color: `${accent}99`, fontStyle: "italic", marginTop: 2 }}>
             {starters.length} starter{starters.length !== 1 ? "s" : ""}{subs.length > 0 ? ` · ${subs.length} sub${subs.length !== 1 ? "s" : ""}` : ""}
           </div>
         </div>
       </div>
 
-      {/* Starters section */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-        <div style={{ fontSize: 10, color: accent, fontFamily: "'Cinzel',serif", letterSpacing: "0.12em", textTransform: "uppercase", opacity: .7, marginBottom: 2 }}>Starters</div>
+      {/* Starters */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: accent, fontFamily: "'Cinzel',serif", letterSpacing: "0.1em", textTransform: "uppercase" }}>Starters</div>
         {starters.map((q, i) => (
           <div key={q.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{
-              width: 28, height: 28, borderRadius: 6, flexShrink: 0,
+              width: 32, height: 44, borderRadius: 8, flexShrink: 0,
               background: `${accent}22`, border: `1px solid ${border}`,
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontFamily: "'Cinzel',serif", fontSize: 12, color: accent, fontWeight: 700,
+              fontFamily: "'Cinzel',serif", fontSize: 13, color: accent, fontWeight: 700,
             }}>{i + 1}</div>
             <input
               value={q.name}
               onChange={e => rename(q.id, e.target.value)}
               style={{
                 flex: 1, background: "#fffefb", border: `1px solid ${border}`,
-                borderRadius: 8, padding: "8px 12px", color: "#1c1410",
-                fontFamily: "Inter,system-ui,sans-serif", fontSize: 15, outline: "none",
+                borderRadius: 8, padding: "11px 14px", color: "#1c1410",
+                fontFamily: "Inter,system-ui,sans-serif", fontSize: 16, outline: "none",
+                minWidth: 0,
               }}
               placeholder={`${teamName} ${i + 1}`}
             />
             <button onClick={() => removeQuizzer(q.id)} disabled={quizzers.length <= 1} style={{
-              width: 28, height: 28, borderRadius: 6, border: "1px solid #e5e7eb",
+              width: 36, height: 44, borderRadius: 8, border: "1px solid #e2d9cf",
               cursor: quizzers.length <= 1 ? "default" : "pointer",
               background: "#f7f3ee", color: quizzers.length <= 1 ? "#d1d5db" : "#6b7280",
-              fontSize: 16, flexShrink: 0,
+              fontSize: 18, flexShrink: 0,
               display: "flex", alignItems: "center", justifyContent: "center",
             }}>×</button>
           </div>
         ))}
       </div>
 
-      {/* Substitutes section */}
+      {/* Substitutes */}
       {subs.length > 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ fontSize: 10, color: accent, fontFamily: "'Cinzel',serif", letterSpacing: "0.12em", textTransform: "uppercase", opacity: .7 }}>Substitutes</div>
+            <div style={{ fontSize: 11, fontWeight: 700, color: accent, fontFamily: "'Cinzel',serif", letterSpacing: "0.1em", textTransform: "uppercase" }}>Substitutes</div>
             <div style={{ flex: 1, height: 1, background: `${accent}33` }} />
-            <div style={{ fontSize: 10, color: `${accent}88`, fontStyle: "italic" }}>6 correct or 3 incorrect = sub eligible</div>
           </div>
+          <div style={{ fontSize: 12, color: `${accent}88`, fontStyle: "italic", marginTop: -4, marginBottom: 2 }}>6 correct or 3 incorrect = eligible</div>
           {subs.map((q, i) => (
             <div key={q.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div style={{
-                width: 28, height: 28, borderRadius: 6, flexShrink: 0,
+                width: 32, height: 44, borderRadius: 8, flexShrink: 0,
                 background: "#f7f3ee", border: `1px dashed ${border}`,
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontFamily: "'Cinzel',serif", fontSize: 12, color: accent, fontWeight: 700, opacity: 0.6,
+                fontFamily: "'Cinzel',serif", fontSize: 13, color: accent, fontWeight: 700, opacity: 0.6,
               }}>S{i + 1}</div>
               <input
                 value={q.name}
                 onChange={e => rename(q.id, e.target.value)}
                 style={{
                   flex: 1, background: "#fffefb", border: `1px dashed ${border}`,
-                  borderRadius: 8, padding: "8px 12px", color: "#6b7280",
-                  fontFamily: "Inter,system-ui,sans-serif", fontSize: 15, outline: "none",
+                  borderRadius: 8, padding: "11px 14px", color: "#6b7280",
+                  fontFamily: "Inter,system-ui,sans-serif", fontSize: 16, outline: "none",
+                  minWidth: 0,
                 }}
                 placeholder={`Sub ${i + 1}`}
               />
               <button onClick={() => removeQuizzer(q.id)} style={{
-                width: 28, height: 28, borderRadius: 6, border: "1px solid #e5e7eb", cursor: "pointer",
-                background: "#f7f3ee", color: "#9ca3af", fontSize: 16, flexShrink: 0,
+                width: 36, height: 44, borderRadius: 8, border: "1px solid #e2d9cf", cursor: "pointer",
+                background: "#f7f3ee", color: "#9ca3af", fontSize: 18, flexShrink: 0,
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}>×</button>
             </div>
@@ -250,16 +251,16 @@ function TeamSetup({ color, teamName, accent, bg, border, quizzers, setQuizzers 
       <div style={{ display: "flex", gap: 8 }}>
         {starters.length < 4 && (
           <button onClick={addQuizzer} style={{
-            flex: 1, padding: "9px", borderRadius: 8, cursor: "pointer",
+            flex: 1, padding: "12px", borderRadius: 10, cursor: "pointer",
             background: "#fffefb", border: `1px dashed ${border}`,
-            color: accent, fontFamily: "'Cinzel',serif", fontSize: 11, letterSpacing: "0.06em",
+            color: accent, fontFamily: "'Cinzel',serif", fontSize: 13, letterSpacing: "0.04em",
           }}>+ Add Starter</button>
         )}
         {starters.length >= 4 && quizzers.length < 8 && (
           <button onClick={addQuizzer} style={{
-            flex: 1, padding: "9px", borderRadius: 8, cursor: "pointer",
+            flex: 1, padding: "12px", borderRadius: 10, cursor: "pointer",
             background: "#f7f3ee", border: `1px dashed ${border}`,
-            color: accent, opacity: 0.7, fontFamily: "'Cinzel',serif", fontSize: 11, letterSpacing: "0.06em",
+            color: accent, opacity: 0.75, fontFamily: "'Cinzel',serif", fontSize: 13, letterSpacing: "0.04em",
           }}>+ Add Substitute</button>
         )}
       </div>
@@ -1634,9 +1635,9 @@ function CreateRound({ onClose }) {
             Each team can have 1–8 quizzers. Names default to team color + number — click any name to edit it.
           </div>
 
-          <div style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
+          <div className="teams-layout" style={{ display: "flex", gap: 20, alignItems: "flex-start" }}>
             <TeamSetup color="red"   teamName="Red Team"   {...RED}   quizzers={redQuizzers}   setQuizzers={setRedQuizzers} />
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: 60, gap: 8 }}>
+            <div className="teams-vs" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingTop: 60, gap: 8, flexShrink: 0 }}>
               <div style={{ width: 2, height: 40, background: "#e5e7eb", borderRadius: 1 }} />
               <div style={{ fontFamily: "'Cinzel',serif", fontSize: 18, fontWeight: 700, color: "#d1d5db", letterSpacing: "0.1em" }}>VS</div>
               <div style={{ width: 2, height: 40, background: "#e5e7eb", borderRadius: 1 }} />
@@ -1872,6 +1873,8 @@ function QuizzingWindow({ questions, onClose, onRegenerate }) {
         * { -webkit-tap-highlight-color: transparent; }
         input[type=range] { width: 100%; }
         @media (max-width: 640px) {
+          .teams-layout { flex-direction: column !important; }
+          .teams-vs { display: none !important; }
           .home-cards { flex-direction: column !important; align-items: stretch !important; }
           .home-card  { max-width: 100% !important; }
           .browse-layout { flex-direction: column !important; height: auto !important; }
@@ -1994,6 +1997,8 @@ function QuizzingWindow({ questions, onClose, onRegenerate }) {
         * { -webkit-tap-highlight-color: transparent; }
         input[type=range] { width: 100%; }
         @media (max-width: 640px) {
+          .teams-layout { flex-direction: column !important; }
+          .teams-vs { display: none !important; }
           .home-cards { flex-direction: column !important; align-items: stretch !important; }
           .home-card  { max-width: 100% !important; }
           .browse-layout { flex-direction: column !important; height: auto !important; }
